@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
       var cap_material = new THREE.MeshBasicMaterial( { map: cap_texture } );
       cube.material = cap_material
 
-      // scene.add(cap_img);
+
 
       // output canvas
       // const data = renderer.domElement.toDataURL('image/png');
