@@ -97,14 +97,14 @@ document.addEventListener('DOMContentLoaded', () => {
       var cap_material = new THREE.MeshBasicMaterial( { map: cap_texture } );
       cube.material = cap_material
 
-      scene.add(cap_img);
+      // scene.add(cap_img);
 
       // output canvas
-      const data = renderer.domElement.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = 'photo.png';
-      link.href = data;
-      link.click();
+      // const data = renderer.domElement.toDataURL('image/png');
+      // const link = document.createElement('a');
+      // link.download = 'photo.png';
+      // link.href = data;
+      // link.click();
 
     }
 
@@ -128,15 +128,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 컨트롤러 
     const controller = renderer.xr.getController(0);
-    controller.addEventListener('selectstart', () => {
-      eventsDiv.prepend("selectstart \n");
-    });
-    controller.addEventListener('selectend', () => {
-      eventsDiv.prepend("selectend \n");
-      console.log("selectend");
-    });
+    scene.add(controller);
+    // controller.addEventListener('selectstart', () => {
+    //   eventsDiv.prepend("selectstart \n");
+    // });
+    // controller.addEventListener('selectend', () => {
+    //   eventsDiv.prepend("selectend \n");
+    //   save();
+    //   add_cube();
+    //   console.log("selectend");
+    // });
     controller.addEventListener('select', () => {
-      eventsDiv.prepend("select \n");
+      const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06); 
+      var cap_img;
+      cap_img = renderer.domElement.toDataURL();
+      var cap_texture = new THREE.TextureLoader().load(cap_img);
+      //const material = new THREE.MeshBasicMaterial( { map: cap_texture } );
+      const material = new THREE.MeshBasicMaterial({ color: 0xffffff * Math.random()});
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.applyMatrix4(controller.matrixWorld);
+      mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
+      scene.add(mesh);
     });
 
     captureButton.addEventListener('click', () => {
