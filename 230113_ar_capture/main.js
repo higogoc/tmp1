@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     controller.addEventListener('selectend', () => {
       eventsDiv.prepend("selectend \n");
+      console.log("selectend");
     });
     controller.addEventListener('select', () => {
       eventsDiv.prepend("select \n");
