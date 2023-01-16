@@ -119,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
     function animate(){
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      // cube.rotation.x += 0.01;
+      // cube.rotation.y += 0.01;
       renderer.render(scene, camera);
       renderer.setAnimationLoop(animate);
     };
@@ -138,16 +138,42 @@ document.addEventListener('DOMContentLoaded', () => {
     //   console.log("selectend");
     // });
     controller.addEventListener('select', () => {
-      const geometry = new THREE.BoxGeometry(0.06, 0.06, 0.06); 
+      console.log("select clicked!");
+
+      const geometry = new THREE.DodecahedronGeometry(0.06); 
       var cap_img;
       cap_img = renderer.domElement.toDataURL();
       var cap_texture = new THREE.TextureLoader().load(cap_img);
-      //const material = new THREE.MeshBasicMaterial( { map: cap_texture } );
-      const material = new THREE.MeshBasicMaterial({ color: 0xffffff * Math.random()});
+      const material = new THREE.MeshBasicMaterial( { map: cap_texture } );
+      //const material = new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random()});
       const mesh = new THREE.Mesh(geometry, material);
       mesh.position.applyMatrix4(controller.matrixWorld);
       mesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
       scene.add(mesh);
+
+      // 캡쳐 테스트 
+      //renderer.setClearColor(0x000000);
+      const renderCanvas = renderer.domElement;
+      // output canvas
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.width = renderCanvas.width;
+      canvas.height = renderCanvas.height;
+    
+      
+      renderer.preserveDrawingBuffer = true;
+      renderer.render(scene, camera); // empty if not run
+      context.drawImage(renderCanvas, 0, 0, canvas.width, canvas.height);
+      renderer.preserveDrawingBuffer = false;
+    
+      const data = canvas.toDataURL('image/png');
+    
+      const link = document.createElement('a');
+      link.download = 'photo.png';
+      link.href = data;
+      link.click();
+      // 캡쳐 테스트 
+
     });
 
     captureButton.addEventListener('click', () => {
