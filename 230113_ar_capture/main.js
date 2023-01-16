@@ -1,4 +1,5 @@
 import * as THREE from '../libs/three.js-r132/build/three.module.js';
+import {ARButton} from '../../libs/three.js-r132/examples/jsm/webxr/ARButton.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -6,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const arButton = document.querySelector("#ar-button");
     const captureButton = document.querySelector("#capture-button");
     var cup = document.querySelector("#cup");
+    const eventsDiv = document.querySelector("#events");
+
+
 
     // check and request webxr session 
     const supported = navigator.xr && await navigator.xr.isSessionSupported('immersive-ar');
@@ -102,9 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
       link.href = data;
       link.click();
 
-
-      // print 2d canvas
-
     }
 
 
@@ -125,6 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer.setAnimationLoop(animate);
     };
 
+    // 컨트롤러 
+    const controller = renderer.xr.getController(0);
+    controller.addEventListener('selectstart', () => {
+      eventsDiv.prepend("selectstart \n");
+    });
+    controller.addEventListener('selectend', () => {
+      eventsDiv.prepend("selectend \n");
+    });
+    controller.addEventListener('select', () => {
+      eventsDiv.prepend("select \n");
+    });
 
     captureButton.addEventListener('click', () => {
       if (currentSession) {
@@ -135,6 +147,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("error");
       }
     });
+
+
+    // AR 내 버튼 만들기
+    // const Btn = ARButton.createButton(renderer, {optionalFeatures: ['dom-overlay'], domOverlay: {root: document.body}});
+    // document.body.appendChild(renderer.domElement);
+    // document.body.appendChild(Btn);
   }
 
   initialize();

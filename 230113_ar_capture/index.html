@@ -13,9 +13,20 @@
         body {margin: 0}
         #ar-button {position: fixed; z-index: 1001; padding: 1vh; bottom: 1vh; left: 50%; transform: translateX(-50%)}
       </style>
-      <!-- <style>
-          #captured-image {position: fixed; z-index: 1001; padding: 1vh; bottom: 20%; left: 50%; transform: translateX(-50%)}
-      </style> -->
+    <style>
+        body {margin: 0}
+        #events {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 30vh;
+        padding: 10px;
+        width: 50vw;
+        overflow: auto;
+        background: white;
+        z-index: 1001;
+        }
+    </style>
 
 </head>
 <body>
@@ -23,6 +34,6 @@
     <button id="ar-button">Start</button>
 
     <img src="../cut_dog.jpg" alt="none" width="20%" height="20%" id="cup">
-
+    <textarea id="events"></textarea>
 </body>
 </html>
